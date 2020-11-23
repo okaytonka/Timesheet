@@ -1,15 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-export class LoginScreen extends React.Component {
+export class RegisterScreen extends React.Component {
   state={
+    name:"",
+    surname:"",
     email:"",
     password:""
   }
   render(){
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>Time Sheet</Text>
+        <Text style={styles.logo}>Kayıt Ekranı</Text>
+        <View style={styles.inputView} >
+          <TextInput  
+            style={styles.inputText}
+            placeholder="Ad..." 
+            placeholderTextColor="#003f5c"
+            onChangeText={text => this.setState({name:text})}/>
+        </View>
+        <View style={styles.inputView} >
+          <TextInput  
+            style={styles.inputText}
+            placeholder="Soyad..." 
+            placeholderTextColor="#003f5c"
+            onChangeText={text => this.setState({surname:text})}/>
+        </View>
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
@@ -25,15 +41,11 @@ export class LoginScreen extends React.Component {
             placeholderTextColor="#003f5c"
             onChangeText={text => this.setState({password:text})}/>
         </View>
-        <TouchableOpacity>
-          <Text style={styles.forgot}>Şifrenizi Mi Unuttunuz?</Text>
+
+        <TouchableOpacity style={styles.registerBtn}>
+    <Text style={styles.registerText}>KAYDOL</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn}>
-    <Text style={styles.loginText}>GİRİŞ YAP </Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.loginText}>Kaydol</Text>
-        </TouchableOpacity>
+
 
   
       </View>
@@ -68,12 +80,13 @@ const styles = StyleSheet.create({
     height:50,
     color:"#fb5b5a",
     fontWeight:"bold",
+
   },
   forgot:{
     color:"white",
     fontSize:11
   },
-  loginBtn:{
+  registerBtn:{
     width:"80%",
     backgroundColor:"#fb5b5a",
     borderRadius:25,
@@ -83,7 +96,7 @@ const styles = StyleSheet.create({
     marginTop:40,
     marginBottom:10
   },
-  loginText:{
+  registerText:{
     color:"white"
   }
 });
