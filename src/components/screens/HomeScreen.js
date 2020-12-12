@@ -1,12 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View,Dimensions, SafeAreaView, StatusBar,Modal, Button,Picker } from 'react-native';
+import { StyleSheet, Text, View,Dimensions, SafeAreaView, StatusBar,Modal, Button,Picker,TouchableHighlight,TextInput } from 'react-native';
 
 import MenuButton from '../MenuButton'
 import { Calendar } from 'react-native-big-calendar'
 import dayjs from 'dayjs';
 import 'dayjs/locale/tr'
 import tr from 'dayjs/locale/tr';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 const WIDTH= Dimensions.get('window').width;
@@ -19,9 +18,9 @@ export default class HomeScreen extends React.Component {
     modalStartDate:"",
     modalFinishDate:"",
     modalSelectedStartMinute:0,
-    modalSelectedFinishHour:0,
+    modalSelectedFinishHour:12,
     modalSelectedFinishMinute:0,
-
+    job:"",
     events:[]
   }
 
@@ -53,20 +52,21 @@ this.finishItemCreater();
 
   addMyEvent(e)
   {///////AYI GÖNDERİRKEN 1 FAZLA GÖNDER ÇEKERKEN 1 EKSİLT DİZİSİ 0 OLARAK BAŞLIYOR
-    var year=new Date(e).getFullYear(); 
-    var month=new Date(e).getMonth();
-    var day=new Date(e).getDate();
-    var hour=new Date(e).getHours(); 
-    var minute=new Date(e).getMinutes(); 
+    var a=[]
+    var year=new Date(cellSelector).getFullYear(); 
+    var month=new Date(cellSelector).getMonth();
+    var day=new Date(cellSelector).getDate();
+    var hour=new Date(cellSelector).getHours(); 
+    var minute=new Date(cellSelector).getMinutes(); 
     console.log(year+","+month+","+day+","+hour+","+minute);
    a.push
   (  {
-   title: 'Tanışma',
-    start: new Date(year,month, day, hour, minute).toLocaleString("tr"),
-    end: new Date(2020, 11, 12, 10, 30).toLocaleString("tr"),
+   title: this.state.job,
+    start: new Date(year,month, day, hour, this.state.modalSelectedStartMinute).toLocaleString("tr"),
+    end: new Date(year, month, day, this.state.modalSelectedFinishHour, this.state.modalSelectedFinishMinute).toLocaleString("tr"),
     }
   )
-   
+   this.setModalVisible();
     this.setState({events:a })
     console.log("ADMMY",a)
   }
@@ -76,7 +76,7 @@ this.finishItemCreater();
     finishItems=[];
     console.log("GELEENENNN",this.state.modalSelectedFinishHour)
     for (let index = this.state.modalSelectedFinishHour; index < 24 ; index++) {
-      finishItems.push( {label: index, value: index})
+      finishItems.push( {label: index.toString(), value: index})
       
     }
     console.log("ITEMSFİNİSHH",finishItems);
@@ -123,7 +123,7 @@ this.finishItemCreater();
               <View style={styles.modalStartDateContainer} >
 <Text style={styles.modalText}>Başlangıç: {this.state.modalStartDate}</Text>
 <DropDownPicker
-style={styles.modalMinuteDrop}
+style={styles.modalDrop}
 items={[
 {label: '00', value: 0},
 {label: '30', value: 30},
@@ -143,26 +143,61 @@ modalSelectedStartMinute: item.value
 
         <Text style={styles.modalText}>Bitiş: {this.state.modalFinishDate}</Text>
         <DropDownPicker
-style={styles.modalMinuteDrop}
-items={[
-  {label: '00', value: 0},
-  {label: '30', value: 30},
-  ]}
-defaultValue={this.state.modalSelectedStartMinute}
+        placeholder={"Saat"}
+style={styles.modalDrop}
+items={finishItems}
 containerStyle={{height: 30}}
 itemStyle={{
 justifyContent: 'flex-start'
 }}
 dropDownStyle={{backgroundColor: '#fafafa'}}
 onChangeItem={item => this.setState({
-modalSelectedStartMinute: item.value
+  modalSelectedFinishHour: item.value
+})}
+/>
+
+<DropDownPicker
+style={styles.modalDrop}
+items={[
+{label: '00', value: 0},
+{label: '30', value: 30},
+]}
+defaultValue={this.state.modalSelectedFinishMinute}
+containerStyle={{height: 30}}
+itemStyle={{
+justifyContent: 'flex-start'
+}}
+dropDownStyle={{backgroundColor: '#fafafa'}}
+onChangeItem={item => this.setState({
+  modalSelectedFinishMinute: item.value
 })}
 />
               
             </View>
+            <View style={styles.inputView} >
+          <TextInput  
+            style={styles.inputText}
+            placeholder="İşi Giriniz..." 
+            placeholderTextColor="#003f5c"
+            onChangeText={text => this.setState({job:text})}/>
+        </View>
 
-            <Button title="İptal Et" onPress={this.setModalVisible.bind()} />
-            <Button title="Kaydet" onPress={this.addMyEvent.bind()} />   
+  <View style={styles.modalButtonGroup}>
+  <TouchableHighlight  onPress={() => {this.setModalVisible()}}
+                style ={styles.modalButton}>
+   {/* <Button title="İptal Et" onPress={this.setModalVisible.bind()} /> */}
+   <Text style ={styles.textStyle}>İptal Et</Text>
+
+          </TouchableHighlight > 
+
+          <TouchableHighlight   onPress={() => {this.addMyEvent()}}
+                style ={styles.modalButton}>
+                  <Text style ={styles.textStyle}>Kaydet</Text>
+          </TouchableHighlight > 
+          {/* <Button title="Kaydet" onPress={this.addMyEvent.bind()} />    */}
+
+  </View>
+            
 
             </View>
           </View> 
@@ -175,6 +210,15 @@ modalSelectedStartMinute: item.value
 }
 
 const styles = StyleSheet.create({
+  inputView:{
+    width:"80%",
+    backgroundColor:"#FFFFFF",
+    borderRadius:25,
+    height:50,
+    marginBottom:20,
+    justifyContent:"center",
+    padding:20
+  },
   container: {
     backgroundColor: '#f8f8f8',
     height: '100%',
@@ -228,10 +272,30 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   modalStartDateContainer:{
-    flexDirection: 'row', justifyContent: 'center'
+    flexDirection: 'row', 
+    justifyContent: 'center'
   },
-  modalMinuteDrop:{
+  modalDrop:{
     backgroundColor: '#fafafa',
-    width:100
+    width:70
+  },
+  modalButtonGroup:{
+    
+    padding:20,
+    flexDirection: 'row', 
+    justifyContent: 'center'
+  },
+  modalButton:{
+    zIndex:3,
+    backgroundColor:"#fb5b5a",
+    borderRadius:25,
+    height:50,
+    width:120,
+    alignItems:"center",
+    justifyContent:"center",
+    marginTop:40,
+    marginRight:10,
+    marginBottom:10
   }
+
 });
