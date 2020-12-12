@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-export class RegisterScreen extends React.Component {
+export default class RegisterScreen extends React.Component {
   state={
     name:"",
     surname:"",
