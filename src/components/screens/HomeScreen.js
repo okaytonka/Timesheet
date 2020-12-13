@@ -110,19 +110,23 @@ this.endItemCreater();
     });
     if(control==="iptal")
 {
-  this.setState({ 
-    modalVisible: !this.state.modalVisible,
-  error:"",
-  modalId:-1,
-  modalStartDate:"",
-  modalEndDate:"",
-  modalSelectedStartHour:-1,
-  modalSelectedStartMinute:0,
-  modalSelectedEndHour:-1,
-  modalSelectedEndMinute:0,
-  title:"",
-  });
+  this.resetState();
 }
+  }
+
+  resetState =async() =>{
+   await this.setState({ 
+    error:"",
+    modalId:-1,
+    modalStartDate:"",
+    modalEndDate:"",
+    modalSelectedStartHour:-1,
+    modalSelectedStartMinute:0,
+    modalSelectedEndHour:-1,
+    modalSelectedEndMinute:0,
+    title:"",
+    });
+
   }
 
   addMyEvent()
@@ -146,6 +150,7 @@ this.endItemCreater();
             endDate:  firebase.firestore.Timestamp.fromDate(new Date(year,month, day, this.state.modalSelectedEndHour, this.state.modalSelectedEndMinute))
           })
           .then(querySnapshot => {
+            this.resetState();
             this.componentDidMount();
             });
         }catch(error){
@@ -169,6 +174,7 @@ this.endItemCreater();
           endDate:  firebase.firestore.Timestamp.fromDate(new Date(year,month, day, this.state.modalSelectedEndHour, this.state.modalSelectedEndMinute))
         })
         .then(querySnapshot => {
+          this.resetState();
           this.componentDidMount();
           });
       }catch(error){
