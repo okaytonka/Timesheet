@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/tr'
 import tr from 'dayjs/locale/tr';
 import DropDownPicker from 'react-native-dropdown-picker';
+import firebase from '../../../Firebase'
 
 const WIDTH= Dimensions.get('window').width;
 
@@ -16,6 +17,7 @@ export default class HomeScreen extends React.Component {
   state={
     error:"",
     modalVisible: false,
+    modalId:-1,
     modalStartDate:"",
     modalEndDate:"",
     modalSelectedStartHour:-1,
@@ -23,20 +25,39 @@ export default class HomeScreen extends React.Component {
     modalSelectedEndHour:-1,
     modalSelectedEndMinute:0,
     title:"",
-    events:[{
-      title: 'Coffee break',
-      start: dayjs().set('hour', 14).set('minute', 30).toDate(),
-      end: dayjs().set('hour', 15).set('minute', 30).toDate(),
-    }]
+    events:[]
   }
 
   
   componentDidMount(){
-  
+  var a=[];
+  firebase.firestore()
+  .collection('Users').doc("1uid").collection("Jobs")
+  .get()
+  .then(snapshot => {
+    snapshot.forEach(doc => {
+      if (doc && doc.exists) {
+       // console.log("DİDİDİD",doc.id)
+        a.push
+        (  {
+          id:doc.id,
+         title: doc.data().title,
+          start: doc.data().startDate.toDate(),
+          end: doc.data().endDate.toDate(),
+          }
+        )
+      }
+    });
+this.setState({events:a})
+  });
+
+
+
   }
 
 
   cellClick = async(e) => {
+    console.log("CELLCLİK",e)
     cellSelector=e;
     var year=new Date(e).getFullYear(); 
     var month=new Date(e).getMonth();
@@ -53,9 +74,11 @@ this.endItemCreater();
   }
 
   eventClick = async(e) => {
+    console.log("EVENTCLİCK",e)
 
-    console.log("EVENVT E FİNİSH",e)
-    var title=e.title
+    cellSelector=e;
+
+    var title=e.title;
     var year=new Date(e.start).getFullYear(); 
     var month=new Date(e.start).getMonth();
     var day=new Date(e.start).getDate();
@@ -64,8 +87,8 @@ this.endItemCreater();
     var startMinute=new Date(e.start).getMinutes(); 
     var endHour=new Date(e.end).getHours(); 
     var endMinute=new Date(e.end).getMinutes(); 
-console.log("EVENCTCLİK",year,month,day,startHour,startMinute,endHour,endMinute)
   await  this.setState({
+      modalId:e.id,
       modalStartDate:day+"/"+month+"/"+year,
       modalSelectedStartHour:startHour,
       modalSelectedStartMinute:startMinute,
@@ -80,32 +103,85 @@ console.log("EVENCTCLİK",year,month,day,startHour,startMinute,endHour,endMinute
 
   }
 
-  setModalVisible = () => {
-    this.setState({ modalVisible: !this.state.modalVisible,
+  setModalVisible = (control) => {
+    this.setState({ 
+      modalVisible: !this.state.modalVisible,
     error:""
     });
+    if(control==="iptal")
+{
+  this.setState({ 
+    modalVisible: !this.state.modalVisible,
+  error:"",
+  modalId:-1,
+  modalStartDate:"",
+  modalEndDate:"",
+  modalSelectedStartHour:-1,
+  modalSelectedStartMinute:0,
+  modalSelectedEndHour:-1,
+  modalSelectedEndMinute:0,
+  title:"",
+  });
+}
   }
 
-  addMyEvent(e)
+  addMyEvent()
   {///////AYI GÖNDERİRKEN 1 FAZLA GÖNDER ÇEKERKEN 1 EKSİLT DİZİSİ 0 OLARAK BAŞLIYOR
     if(this.state.modalSelectedStartHour!==-1&& this.state.modalSelectedEndHour!==-1)
     {
-      var a=[]
-      var year=new Date(cellSelector).getFullYear(); 
-      var month=new Date(cellSelector).getMonth();
-      var day=new Date(cellSelector).getDate();
-      var hour=new Date(cellSelector).getHours(); 
-      var minute=new Date(cellSelector).getMinutes(); 
-      console.log(year+","+month+","+day+","+hour+","+minute);
-     a.push
-    (  {
-     title: this.state.title,
-      start: new Date(year,month, day, this.state.modalSelectedStartHour, this.state.modalSelectedStartMinute).toLocaleString("tr"),
-      end: new Date(year, month, day, this.state.modalSelectedEndHour, this.state.modalSelectedEndMinute).toLocaleString("tr"),
+    
+      if(this.state.modalId===-1)
+      {
+        var year=new Date(cellSelector).getFullYear(); 
+        var month=new Date(cellSelector).getMonth();
+        var day=new Date(cellSelector).getDate();
+        try{
+          firebase.firestore().
+          collection('Users').
+          doc("1uid").
+          collection("Jobs")
+          .add({
+            title:this.state.title,
+            startDate: firebase.firestore.Timestamp.fromDate(new Date(year,month, day, this.state.modalSelectedStartHour, this.state.modalSelectedStartMinute)),
+            endDate:  firebase.firestore.Timestamp.fromDate(new Date(year,month, day, this.state.modalSelectedEndHour, this.state.modalSelectedEndMinute))
+          })
+          .then(querySnapshot => {
+            this.componentDidMount();
+            });
+        }catch(error){
+          console.log("addFirebaseERROR",error);
+    
+        }
       }
-    )
+
+    else{
+      var year=new Date(cellSelector.start).getFullYear(); 
+      var month=new Date(cellSelector.start).getMonth();
+      var day=new Date(cellSelector.start).getDate();
+      try{
+        firebase.firestore().
+        collection('Users').
+        doc("1uid").
+        collection("Jobs").doc(this.state.modalId)
+        .set({
+          title:this.state.title,
+          startDate: firebase.firestore.Timestamp.fromDate(new Date(year,month, day, this.state.modalSelectedStartHour, this.state.modalSelectedStartMinute)),
+          endDate:  firebase.firestore.Timestamp.fromDate(new Date(year,month, day, this.state.modalSelectedEndHour, this.state.modalSelectedEndMinute))
+        })
+        .then(querySnapshot => {
+          this.componentDidMount();
+          });
+      }catch(error){
+        console.log("addFirebaseERROR",error);
+  
+      }
+
+    }
+
+
+
      this.setModalVisible();
-      this.setState({events:a,
+      this.setState({
         modalSelectedStartHour:-1,
         modalSelectedStartMinute:0,
         modalSelectedEndHour:-1,
@@ -119,6 +195,7 @@ console.log("EVENCTCLİK",year,month,day,startHour,startMinute,endHour,endMinute
     }
 
   }
+
 
   endItemCreater()
   {
@@ -145,11 +222,9 @@ console.log("EVENCTCLİK",year,month,day,startHour,startMinute,endHour,endMinute
         style={styles.calendar}
         height={Dimensions.get('window').height - 150}
         events={this.state.events}
-          //onChangeDate={this.addMyEvent.bind()}
           onPressCell={
-            //this.addMyEvent.bind(this)
            
-            this.cellClick.bind(this)
+            (e) =>  this.cellClick(e)
           
           }
           onPressEvent={(e) => this.eventClick(e)}
@@ -247,7 +322,7 @@ onChangeItem={item => this.setState({
 
   <View style={styles.modalButtonGroup}>
    <Text> {this.state.error}</Text> 
-  <TouchableHighlight  onPress={() => {this.setModalVisible()}}
+  <TouchableHighlight  onPress={() => {this.setModalVisible("iptal")}}
                 style ={styles.modalButton}>
    {/* <Button title="İptal Et" onPress={this.setModalVisible.bind()} /> */}
    <Text style ={styles.textStyle}>İptal Et</Text>
@@ -258,7 +333,6 @@ onChangeItem={item => this.setState({
                 style ={styles.modalButton}>
                   <Text style ={styles.textStyle}>Kaydet</Text>
           </TouchableHighlight > 
-          {/* <Button title="Kaydet" onPress={this.addMyEvent.bind()} />    */}
 
   </View>
             
