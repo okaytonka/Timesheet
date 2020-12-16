@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,Dimensions, SafeAreaView, StatusBar,Modal, Button,Picker,TouchableHighlight,TextInput } from 'react-native';
+import { StyleSheet, Text, View,Dimensions, SafeAreaView, StatusBar,Modal, Button,Picker,TouchableHighlight,TextInput,Vibration } from 'react-native';
 
 import MenuButton from '../MenuButton'
 import { Calendar } from 'react-native-big-calendar'
@@ -57,6 +57,7 @@ this.setState({events:a})
 
 
   cellClick = async(e) => {
+    Vibration.vibrate(10)
     console.log("CELLCLİK",e)
     cellSelector=e;
     var year=new Date(e).getFullYear(); 
@@ -75,6 +76,7 @@ this.endItemCreater();
 
   eventClick = async(e) => {
     console.log("EVENTCLİCK",e)
+    Vibration.vibrate(10)
 
     cellSelector=e;
 
