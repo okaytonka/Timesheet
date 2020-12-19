@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-
+import firebase from '../../../Firebase'
+import FlashMessage from "react-native-flash-message";
+import { showMessage, hideMessage } from "react-native-flash-message";
 export default class RegisterScreen extends React.Component {
   state={
     name:"",
@@ -8,6 +10,52 @@ export default class RegisterScreen extends React.Component {
     email:"",
     password:""
   }
+
+  Register = (email, password) => {
+      firebase
+         .auth()
+         .createUserWithEmailAndPassword(email, password)
+         .then(data => {
+           ()=>showMessage({
+          message: "Başarılı",
+          description: "Kayıt Yapılıyor.",
+          type: "success",
+        }),
+
+        firebase
+  .firestore()
+  .collection("UserInfo")
+  .doc(data.user.uid)
+  .set(
+    {
+    id:data.user.uid,
+    name: this.state.name,
+    surname: this.state.surname,
+    mail:this.state.email
+
+  })
+  .then((ref) => { 
+     this.props.navigation.navigate('Home',data.user.uid)
+
+   });
+
+      }
+         ).catch(error=>{
+           console.log("HATA",error)
+          showMessage({
+            message: "Uyarı",
+            description: "Girdiğiniz Bİlgiler Hatalı.",
+            type: "info",
+          });
+         });
+
+
+        
+
+  };
+
+
+
   render(){
     return (
       <View style={styles.container}>
@@ -31,6 +79,8 @@ export default class RegisterScreen extends React.Component {
             style={styles.inputText}
             placeholder="Email..." 
             placeholderTextColor="#003f5c"
+            keyboardType="email-address"
+            autoCapitalize="none"
             onChangeText={text => this.setState({email:text})}/>
         </View>
         <View style={styles.inputView} >
@@ -39,15 +89,17 @@ export default class RegisterScreen extends React.Component {
             style={styles.inputText}
             placeholder="Şifre..." 
             placeholderTextColor="#003f5c"
+            autoCapitalize="none"
             onChangeText={text => this.setState({password:text})}/>
         </View>
 
-        <TouchableOpacity style={styles.registerBtn}>
+        <TouchableOpacity style={styles.registerBtn} onPress={() => this.Register(this.state.email, this.state.password)}>
     <Text style={styles.registerText}>KAYDOL</Text>
         </TouchableOpacity>
 
 
-  
+        <FlashMessage position="bottom" />
+
       </View>
     );
   }

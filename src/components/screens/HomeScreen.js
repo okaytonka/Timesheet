@@ -25,31 +25,42 @@ export default class HomeScreen extends React.Component {
     modalSelectedEndHour:-1,
     modalSelectedEndMinute:0,
     title:"",
-    events:[]
+    events:[],
+    myUid:""
   }
 
-  
-  componentDidMount(){
+
+
+ async componentDidMount (){
+    await this.setState({
+      myUid:firebase.auth().currentUser.uid
+    })
   var a=[];
-  firebase.firestore()
-  .collection('Users').doc("1uid").collection("Jobs")
-  .get()
-  .then(snapshot => {
-    snapshot.forEach(doc => {
-      if (doc && doc.exists) {
-       // console.log("DİDİDİD",doc.id)
-        a.push
-        (  {
-          id:doc.id,
-         title: doc.data().title,
-          start: doc.data().startDate.toDate(),
-          end: doc.data().endDate.toDate(),
-          }
-        )
-      }
+  try {
+    firebase.firestore()
+    .collection('Users').doc(this.state.myUid)
+    .collection("Jobs")
+    .get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        if (doc && doc.exists) {
+         // console.log("DİDİDİD",doc.id)
+          a.push
+          (  {
+            id:doc.id,
+           title: doc.data().title,
+            start: doc.data().startDate.toDate(),
+            end: doc.data().endDate.toDate(),
+            }
+          )
+        }
+      });
+  this.setState({events:a})
     });
-this.setState({events:a})
-  });
+  
+  } catch (error) {
+    console.log("ERROR",error)
+  }
 
 
 
@@ -142,9 +153,10 @@ this.endItemCreater();
         var month=new Date(cellSelector).getMonth();
         var day=new Date(cellSelector).getDate();
         try{
+          console.log("ADD",this.state.myUid)
           firebase.firestore().
           collection('Users').
-          doc("1uid").
+          doc(this.state.myUid).
           collection("Jobs")
           .add({
             title:this.state.title,

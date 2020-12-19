@@ -10,12 +10,38 @@ import
     TouchableOpacity,
     Image
 } from 'react-native'
+import firebase from '../../Firebase'
 
 
 const WIDTH =Dimensions.get('window').width
 const HEIGHT =Dimensions.get('window').HEIGHT
 
 export default class MenuDrawer extends React.Component{
+
+  state={
+    userName:"",
+    userSurname:"",
+  }
+
+   componentDidMount (){
+    try {
+      console.log("GİRDİDİD")
+        firebase.firestore().collection("UserInfo").doc(firebase.auth().currentUser.uid)
+        .get()
+      .then(querySnapshot => {
+        this.setState({
+          userName:querySnapshot.data().name,
+          userSurname:querySnapshot.data().surname
+        })
+      });
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+
+  }
+
     navLink(nav,text){
         return(
             <TouchableOpacity style={{height:50}} onPress={() => this.props.navigation.navigate(nav)} >
@@ -24,16 +50,17 @@ export default class MenuDrawer extends React.Component{
         )
     }
     render(){
+      console.log("MENUDRAW",this.props.navigation.navigate.params)
         return(
             <View style={styles.container}>
                 <ScrollView style={styles.scroller}>
                     <View style={styles.topLinks}>
                     <View style={styles.profile}>
                             <View style={styles.imgView}>
-                                <Image style={styles.img} source={require("../../assets/okay.jpg")}/>
+                                <Image style={styles.img} source={require("../../assets/icon.png")}/>
                             </View>
                             <View style={styles.profileText}>
-                                <Text style={styles.name}>Okay Tonka</Text>
+                                <Text style={styles.name}>{this.state.userName} {this.state.userSurname}</Text>
                             </View>
                     </View>
                     </View>

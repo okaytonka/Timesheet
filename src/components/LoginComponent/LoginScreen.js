@@ -1,11 +1,46 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-
+import firebase from '../../../Firebase'
+import FlashMessage from "react-native-flash-message";
+import { showMessage, hideMessage } from "react-native-flash-message";
 export default class LoginScreen extends React.Component {
   state={
     email:"",
     password:""
   }
+
+  Login = (email, password) => {
+
+    try {
+      firebase
+         .auth()
+         .signInWithEmailAndPassword(email, password)
+         .then(data=>{
+          showMessage({
+          message: "Başarılı",
+          description: "Giriş Yapılıyor.",
+          type: "success",
+        }),
+        console.log('Home',data.user.uid)
+        this.props.navigation.navigate('Home',data.user.uid)
+        
+      }
+         ).catch(error=>{
+          showMessage({
+            message: "Uyarı",
+            description: "Girdiğiniz Bİlgiler Hatalı.",
+            type: "info",
+          });
+         });
+
+} catch (error) {
+      //console.log(error.toString(error));
+      
+    }
+
+  };
+
+
   render(){
     return (
       <View style={styles.container}>
@@ -15,7 +50,9 @@ export default class LoginScreen extends React.Component {
             style={styles.inputText}
             placeholder="Email..." 
             placeholderTextColor="#003f5c"
-            onChangeText={text => this.setState({email:text})}/>
+            keyboardType="email-address"
+            autoCapitalize="none"
+             onChangeText={text => this.setState({email:text})}/>
         </View>
         <View style={styles.inputView} >
           <TextInput  
@@ -23,19 +60,21 @@ export default class LoginScreen extends React.Component {
             style={styles.inputText}
             placeholder="Şifre..." 
             placeholderTextColor="#003f5c"
+            autoCapitalize="none"
             onChangeText={text => this.setState({password:text})}/>
         </View>
         <TouchableOpacity>
           <Text style={styles.forgot}>Şifrenizi Mi Unuttunuz?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity style={styles.loginBtn} onPress={() => this.Login(this.state.email,this.state.password)} style={styles.loginBtn}>
     <Text style={styles.loginText}>GİRİŞ YAP </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
           <Text style={styles.loginText}>Kaydol</Text>
         </TouchableOpacity>
 
-  
+        <FlashMessage position="bottom" />
+
       </View>
     );
   }

@@ -1,6 +1,6 @@
 import { firebase } from '@firebase/app';
-//require('firebase/auth')
-import '@firebase/firestore';
+require('firebase/auth')
+import firestore from 'firebase/firestore';
 
 
 
