@@ -2,8 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LoginScreen from './src/components/LoginComponent/LoginScreen';
 import RegisterScreen from './src/components/RegisterComponent/RegisterScreen';
-
-import HomeScreen from './src/components/screens/HomeScreen';
 import DrawerNavigator from './src/navigation/DrawerNavigator'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';

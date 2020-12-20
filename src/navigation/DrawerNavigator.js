@@ -7,6 +7,7 @@ import HomeScreen from '../components/screens/HomeScreen';
 import TodayScreen from '../components/screens/TodayScreen'
 import SettingsScreen from '../components/screens/SettingsScreen'
 import MenuDrawer from '../components/MenuDrawer';
+import LoginScreen from '../components/LoginComponent/LoginScreen';
 
 const WIDTH= Dimensions.get('window').width;
 const DrawerConfig={
@@ -26,6 +27,9 @@ const DrawerNavigator = createDrawerNavigator(
         },
         Settings:{
             screen:SettingsScreen
+        },
+        Login:{
+            screen:LoginScreen
         }
         
         

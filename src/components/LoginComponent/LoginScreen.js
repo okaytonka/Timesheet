@@ -3,12 +3,37 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity,Image } from 'react
 import firebase from '../../../Firebase'
 import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
+
 export default class LoginScreen extends React.Component {
+  constructor(props) {
+    super(props);
+ 
+  }
   state={
     email:"",
-    password:""
+    password:"",
+    uid:""
+
   }
 
+
+  componentDidMount=()=>
+{
+  let that = this ;
+
+  try {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        that.props.navigation.navigate('Home',user.uid)
+      } else {
+        // No user is signed in.
+      }
+    });
+  } catch (error) {
+    
+  }
+
+}
   Login = (email, password) => {
 
     try {
@@ -70,7 +95,7 @@ export default class LoginScreen extends React.Component {
         <TouchableOpacity>
           <Text style={styles.forgot}>Şifrenizi Mi Unuttunuz?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn} onPress={() => this.Login(this.state.email,this.state.password)} style={styles.loginBtn}>
+        <TouchableOpacity style={styles.loginBtn} onPress={() => this.Login(this.state.email,this.state.password)}>
     <Text style={styles.loginText}>GİRİŞ YAP </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>

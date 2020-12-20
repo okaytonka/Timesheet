@@ -22,7 +22,18 @@ export default class MenuDrawer extends React.Component{
     userName:"",
     userSurname:"",
   }
+LogOut=() =>{
+  let that = this ;
 
+  firebase.auth().signOut().then(function() {
+    console.log("ÇIKIŞ YAPTI")
+    that.props.navigation.navigate("Login")
+      }).catch(function(error) {
+    // An error happened.
+    console.log("HATA",error)
+
+  });
+}
    componentDidMount (){
     try {
       console.log("GİRDİDİD")
@@ -69,14 +80,27 @@ export default class MenuDrawer extends React.Component{
                         {this.navLink('Home','Anasayfa')}
                         {this.navLink('Today','Günlük İşler')}
                         {this.navLink('Settings','Ayarlar')}
+                        
 
                     </View>
+           
+                
                     </ScrollView>
 
                     <View style={styles.footer}>
+                      
                         <Text style={styles.description}>Timesheet</Text>
+                        
                         <Text style={styles.version}>v1.0</Text>
 
+
+                        <View style={styles.imageView}>
+                    <TouchableOpacity onPress={() => this.LogOut()}>
+
+                  <Image style={styles.image} source={require('../images/logout.png')}/>
+                  </TouchableOpacity>
+
+                    </View>
                     </View>
             </View>
         )
@@ -158,5 +182,13 @@ const styles = StyleSheet.create({
         flex:1,
         marginLeft:20,
         fontSize:16,
-    }
+    },
+    imageView:{
+      marginBottom:0
+       
+        },
+        image:{
+          height:50,
+          width: 50,
+        }
 });

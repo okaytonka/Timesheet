@@ -309,7 +309,7 @@ modalSelectedStartMinute: item.value
         <Text style={styles.modalText}>Bitiş: {this.state.modalEndDate}</Text>
         <DropDownPicker
         placeholder={"Saat"}
-style={styles.modalDrop}
+style={styles.modalDrop2}
 items={endItems}
 containerStyle={{height: 30}}
 itemStyle={{
@@ -322,7 +322,7 @@ onChangeItem={item => this.setState({
 />
 
 <DropDownPicker
-style={styles.modalDrop}
+style={styles.modalDrop2}
 items={[
 {label: '00', value: 0},
 {label: '30', value: 30},
@@ -391,6 +391,7 @@ const styles = StyleSheet.create({
 
   },
   inputView:{
+    zIndex:-1,
     width:"80%",
 
     backgroundColor:"#f5f5f5",
@@ -449,27 +450,30 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   modalStartDate1Container:{
-    zIndex:5,
     flexDirection: 'row', 
     justifyContent: 'center'
   },
   modalStartDateContainer:{
-    zIndex:3,
     flexDirection: 'row', 
     justifyContent: 'center'
   },
   modalDrop:{
+    zIndex:10,
+    backgroundColor: '#fafafa',
+    width:70
+  },
+  modalDrop2:{
+    zIndex:9,
     backgroundColor: '#fafafa',
     width:70
   },
   modalButtonGroup:{
-    
+    zIndex:-1,
     padding:0,
     flexDirection: 'row', 
     justifyContent: 'center'
   },
   modalButton:{
-    zIndex:1,
     borderWidth:3,
     borderColor:"gray",
     backgroundColor:"white",
