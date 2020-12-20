@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity,Image } from 'react-native';
 import firebase from '../../../Firebase'
 import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
@@ -44,7 +44,11 @@ export default class LoginScreen extends React.Component {
   render(){
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>Time Sheet</Text>
+
+        <View style={styles.imageView}>
+                  <Image style={styles.image} source={require('../../images/timesheet.png')}/>
+        </View>
+
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
@@ -70,7 +74,7 @@ export default class LoginScreen extends React.Component {
     <Text style={styles.loginText}>GİRİŞ YAP </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
-          <Text style={styles.loginText}>Kaydol</Text>
+          <Text style={styles.registerText}>Kaydol</Text>
         </TouchableOpacity>
 
         <FlashMessage position="bottom" />
@@ -83,10 +87,10 @@ export default class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#9C27B0',
-    alignItems: 'center',
     justifyContent: 'center',
-  },
+    alignItems: 'center',
+    backgroundColor: '#f3ece7'
+   },
   logo:{
     fontWeight:"bold",
     fontSize:50,
@@ -94,35 +98,57 @@ const styles = StyleSheet.create({
     marginBottom:40,
     fontFamily:"Roboto"
   },
+  imageView:{
+marginBottom:20,
+
+ 
+  },
+  image:{
+    width:300,
+height:100,
+ resizeMode:"contain"
+  },
   inputView:{
-    width:"80%",
-    backgroundColor:"#FFFFFF",
-    borderRadius:25,
-    height:50,
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    borderRadius:30,
+    borderBottomWidth: 1,
+    width:250,
+    height:45,
     marginBottom:20,
-    justifyContent:"center",
-    padding:20
+    flexDirection: 'row',
+    alignItems:'center'
   },
   inputText:{
-    height:50,
-    color:"#fb5b5a",
-    fontWeight:"bold",
+     backgroundColor: '#fff',
+    flex: 1,
+    height: 45,
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#ebcfc4',
+    padding: 10,
+    marginVertical: 10,
   },
   forgot:{
-    color:"white",
-    fontSize:11
+    color:"black",
+    fontSize:11,
+    paddingBottom:20
   },
   loginBtn:{
-    width:"80%",
-    backgroundColor:"#fb5b5a",
-    borderRadius:25,
-    height:50,
-    alignItems:"center",
-    justifyContent:"center",
-    marginTop:40,
-    marginBottom:10
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:250,
+    borderRadius:30,
+    backgroundColor: "#00b5ec",
+
   },
   loginText:{
     color:"white"
+  },
+  registerText:{
+    color:"#999"
   }
 });

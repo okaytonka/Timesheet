@@ -141,7 +141,7 @@ state={
                 innerCircle={'icon'}
                data={this.state.data}
                columnFormat='two-column'
-               circleSize={30}
+               circleSize={40}
                circleColor='rgb(45,156,219)'
                lineColor='rgb(45,156,219)'
                timeContainerStyle={{minWidth:52}}
@@ -172,7 +172,7 @@ state={
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f3ece7',
     alignItems:'center',
     justifyContent:'center',
 
