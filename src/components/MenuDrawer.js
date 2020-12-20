@@ -66,9 +66,9 @@ export default class MenuDrawer extends React.Component{
                     </View>
                     <View style={styles.buttonLinks}>
 
-                        {this.navLink('Home','Home')}
-                        {this.navLink('Links','Links')}
-                        {this.navLink('Settings','Settings')}
+                        {this.navLink('Home','Anasayfa')}
+                        {this.navLink('Today','Günlük İşler')}
+                        {this.navLink('Settings','Ayarlar')}
 
                     </View>
                     </ScrollView>

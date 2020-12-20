@@ -25,6 +25,7 @@ export default class HomeScreen extends React.Component {
     modalSelectedEndHour:-1,
     modalSelectedEndMinute:0,
     title:"",
+    description:"",
     events:[],
     myUid:""
   }
@@ -49,6 +50,7 @@ export default class HomeScreen extends React.Component {
           (  {
             id:doc.id,
            title: doc.data().title,
+           description:doc.data().description,
             start: doc.data().startDate.toDate(),
             end: doc.data().endDate.toDate(),
             }
@@ -92,6 +94,7 @@ this.endItemCreater();
     cellSelector=e;
 
     var title=e.title;
+    var description=e.description;
     var year=new Date(e.start).getFullYear(); 
     var month=new Date(e.start).getMonth();
     var day=new Date(e.start).getDate();
@@ -109,7 +112,8 @@ this.endItemCreater();
       modalEndDate:day+"/"+month+"/"+year,
       modalSelectedEndHour:endHour,
       modalSelectedEndMinute:endMinute,
-      title:title
+      title:title,
+      description:description
     })
     this.endItemCreater();
     this.setModalVisible();
@@ -138,6 +142,7 @@ this.endItemCreater();
     modalSelectedEndHour:-1,
     modalSelectedEndMinute:0,
     title:"",
+    description:""
     });
 
   }
@@ -160,6 +165,7 @@ this.endItemCreater();
           collection("Jobs")
           .add({
             title:this.state.title,
+            description:this.state.description,
             startDate: firebase.firestore.Timestamp.fromDate(new Date(year,month, day, this.state.modalSelectedStartHour, this.state.modalSelectedStartMinute)),
             endDate:  firebase.firestore.Timestamp.fromDate(new Date(year,month, day, this.state.modalSelectedEndHour, this.state.modalSelectedEndMinute))
           })
@@ -180,10 +186,11 @@ this.endItemCreater();
       try{
         firebase.firestore().
         collection('Users').
-        doc("1uid").
+        doc(this.state.myUid).
         collection("Jobs").doc(this.state.modalId)
         .set({
           title:this.state.title,
+          description:this.state.description,
           startDate: firebase.firestore.Timestamp.fromDate(new Date(year,month, day, this.state.modalSelectedStartHour, this.state.modalSelectedStartMinute)),
           endDate:  firebase.firestore.Timestamp.fromDate(new Date(year,month, day, this.state.modalSelectedEndHour, this.state.modalSelectedEndMinute))
         })
@@ -220,7 +227,8 @@ this.endItemCreater();
   endItemCreater()
   {
     endItems=[];
-    for (let index = this.state.modalSelectedEndHour; index < 24 ; index++) {
+   // this.state.modalSelectedEndHour
+    for (let index = 0; index < 24 ; index++) {
       endItems.push( {label: index.toString(), value: index})
       
     }
@@ -263,7 +271,7 @@ this.endItemCreater();
           <View style={styles.centeredView}>
          
             <View style={styles.modalView}>
-              <View style={styles.modalStartDateContainer} >
+              <View style={styles.modalStartDate1Container} >
 <Text style={styles.modalText}>Başlangıç: {this.state.modalStartDate}</Text>
 <DropDownPicker
         placeholder={"Saat"}
@@ -334,10 +342,18 @@ onChangeItem={item => this.setState({
             <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
-            placeholder="İşi Giriniz..." 
+            placeholder="Başlık..." 
             placeholderTextColor="#003f5c"
             value={this.state.title}
             onChangeText={text => this.setState({title:text})}/>
+        </View>
+            <View style={styles.inputView} >
+          <TextInput  
+            style={styles.inputText}
+            placeholder="Açıklama..." 
+            placeholderTextColor="#003f5c"
+            value={this.state.description}
+            onChangeText={text => this.setState({description:text})}/>
         </View>
 
   <View style={styles.modalButtonGroup}>
@@ -370,13 +386,14 @@ onChangeItem={item => this.setState({
 const styles = StyleSheet.create({
   inputText:{
     height:50,
-    color:"#fb5b5a",
+    color:"#616161",
     fontWeight:"bold",
 
   },
   inputView:{
     width:"80%",
-    backgroundColor:"lightgray",
+
+    backgroundColor:"#f5f5f5",
     borderRadius:25,
     height:50,
     marginBottom:20,
@@ -425,17 +442,19 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
+  
   modalText: {
     fontSize:22,
     marginBottom: 15,
     textAlign: "center"
   },
+  modalStartDate1Container:{
+    zIndex:5,
+    flexDirection: 'row', 
+    justifyContent: 'center'
+  },
   modalStartDateContainer:{
+    zIndex:3,
     flexDirection: 'row', 
     justifyContent: 'center'
   },
@@ -445,13 +464,15 @@ const styles = StyleSheet.create({
   },
   modalButtonGroup:{
     
-    padding:20,
+    padding:0,
     flexDirection: 'row', 
     justifyContent: 'center'
   },
   modalButton:{
-    zIndex:3,
-    backgroundColor:"#fb5b5a",
+    zIndex:1,
+    borderWidth:3,
+    borderColor:"gray",
+    backgroundColor:"white",
     borderRadius:25,
     height:50,
     width:120,
@@ -460,6 +481,11 @@ const styles = StyleSheet.create({
     marginTop:40,
     marginRight:10,
     marginBottom:10
-  }
+  },
+  textStyle: {
+    color: "gray",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
 
 });

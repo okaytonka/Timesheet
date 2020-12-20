@@ -4,7 +4,7 @@ import { createAppContainer} from'react-navigation';
 import {createDrawerNavigator} from'react-navigation-drawer';
 
 import HomeScreen from '../components/screens/HomeScreen';
-import LinksScreen from '../components/screens/LinksScreen'
+import TodayScreen from '../components/screens/TodayScreen'
 import SettingsScreen from '../components/screens/SettingsScreen'
 import MenuDrawer from '../components/MenuDrawer';
 
@@ -21,8 +21,8 @@ const DrawerNavigator = createDrawerNavigator(
         Home:{
         screen:HomeScreen
         },
-        Links:{
-            screen:LinksScreen
+        Today:{
+            screen:TodayScreen
         },
         Settings:{
             screen:SettingsScreen
