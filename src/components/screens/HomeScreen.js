@@ -10,6 +10,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import firebase from '../../../Firebase'
 
 const WIDTH= Dimensions.get('window').width;
+const HEIGHT= Dimensions.get('window').height;
 
 var cellSelector;
 var endItems=[];
@@ -262,7 +263,8 @@ this.endItemCreater();
         locale="tr"
 />
 
-        
+<View style={styles.containerModal}>
+
         <Modal
           animationType="slide"
           transparent={true}
@@ -273,11 +275,12 @@ this.endItemCreater();
             <View style={styles.modalView}>
               <View style={styles.modalStartDate1Container} >
 <Text style={styles.modalText}>Başlangıç: {this.state.modalStartDate}</Text>
+
 <DropDownPicker
         placeholder={"Saat"}
-style={styles.modalDrop}
+style={styles.modalDropTop}
 items={endItems}
-containerStyle={{height: 30}}
+containerStyle={{height: "60%",width:"60%"}}
 itemStyle={{
 justifyContent: 'flex-start'
 }}
@@ -294,7 +297,7 @@ items={[
 {label: '30', value: 30},
 ]}
 defaultValue={this.state.modalSelectedStartMinute}
-containerStyle={{height: 30}}
+containerStyle={{height: "60%",width:"60%"}}
 itemStyle={{
 justifyContent: 'flex-start'
 }}
@@ -311,7 +314,7 @@ modalSelectedStartMinute: item.value
         placeholder={"Saat"}
 style={styles.modalDrop2}
 items={endItems}
-containerStyle={{height: 30}}
+containerStyle={{height: "60%",width:"60%"}}
 itemStyle={{
 justifyContent: 'flex-start'
 }}
@@ -328,7 +331,7 @@ items={[
 {label: '30', value: 30},
 ]}
 defaultValue={this.state.modalSelectedEndMinute}
-containerStyle={{height: 30}}
+containerStyle={{height: "60%",width:"60%"}}
 itemStyle={{
 justifyContent: 'flex-start'
 }}
@@ -376,6 +379,7 @@ onChangeItem={item => this.setState({
             </View>
           </View> 
         </Modal>
+        </View>
 </SafeAreaView>
 
             </View>
@@ -385,7 +389,7 @@ onChangeItem={item => this.setState({
 
 const styles = StyleSheet.create({
   inputText:{
-    height:50,
+
     color:"#616161",
     fontWeight:"bold",
 
@@ -393,13 +397,16 @@ const styles = StyleSheet.create({
   inputView:{
     zIndex:-1,
     width:"80%",
+    height:"17%",
 
     backgroundColor:"#f5f5f5",
     borderRadius:25,
-    height:50,
-    marginBottom:20,
+    marginBottom:0,
     justifyContent:"center",
-    padding:20
+    padding:5
+  },
+  containerModal:
+  {
   },
   container: {
     backgroundColor: '#f8f8f8',
@@ -418,15 +425,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 0
   },
   modalView: {
-    width:350,
-    height:350,
-    margin: 20,
+    width:WIDTH*0.85,
+    height:HEIGHT*0.5,
+    margin: 0,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 55,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -445,27 +452,31 @@ const styles = StyleSheet.create({
   },
   
   modalText: {
-    fontSize:22,
+    fontSize:16,
     marginBottom: 15,
     textAlign: "center"
   },
   modalStartDate1Container:{
+    width:WIDTH*0.3,
+    height:HEIGHT*0.1,
     flexDirection: 'row', 
     justifyContent: 'center'
   },
   modalStartDateContainer:{
+    width:WIDTH*0.3,
+    height:HEIGHT*0.1,
     flexDirection: 'row', 
     justifyContent: 'center'
   },
-  modalDrop:{
-    zIndex:10,
+  modalDropTop:{
     backgroundColor: '#fafafa',
-    width:70
+
+  },
+  modalDrop:{
+    backgroundColor: '#fafafa',
   },
   modalDrop2:{
-    zIndex:9,
     backgroundColor: '#fafafa',
-    width:70
   },
   modalButtonGroup:{
     zIndex:-1,
@@ -478,11 +489,10 @@ const styles = StyleSheet.create({
     borderColor:"gray",
     backgroundColor:"white",
     borderRadius:25,
-    height:50,
-    width:120,
+    height:"40%",
+    width:"50%",
     alignItems:"center",
     justifyContent:"center",
-    marginTop:40,
     marginRight:10,
     marginBottom:10
   },
