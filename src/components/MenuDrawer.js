@@ -14,7 +14,7 @@ import firebase from '../../Firebase'
 
 
 const WIDTH =Dimensions.get('window').width
-const HEIGHT =Dimensions.get('window').HEIGHT
+const HEIGHT= Dimensions.get('window').height;
 
 export default class MenuDrawer extends React.Component{
 
@@ -88,16 +88,18 @@ LogOut=() =>{
                     </ScrollView>
 
                     <View style={styles.footer}>
-                      
-                        <Text style={styles.description}>Timesheet</Text>
+                      <View style={styles.footerinfo}>
+                      <Text style={styles.description}>Timesheet</Text>
                         
                         <Text style={styles.version}>v1.0</Text>
+                      </View>
+                
 
 
                         <View style={styles.imageView}>
                     <TouchableOpacity onPress={() => this.LogOut()}>
 
-                  <Image style={styles.image} source={require('../images/logout.png')}/>
+                  <Image source={require('../images/logout.png')}/>
                   </TouchableOpacity>
 
                     </View>
@@ -130,7 +132,7 @@ const styles = StyleSheet.create({
 
   },
   name:{
-    fontSize:20,
+    fontSize:0.045*WIDTH,
     paddingBottom:5,
     color:'white',
     textAlign:'left'
@@ -142,12 +144,12 @@ const styles = StyleSheet.create({
 
   },
   img:{
-    height:70,
-    width: 70,
+    height:HEIGHT*0.08,
+    width: WIDTH*0.16,
     borderRadius: 50,
   },
   topLinks:{
-    height:160,
+    height:HEIGHT*0.2,
     backgroundColor:'black'
   },
   bottomLinks:{
@@ -158,22 +160,31 @@ const styles = StyleSheet.create({
   },
   link:{
       flex:1,
-      fontSize:20,
+      fontSize:WIDTH*0.06,
       padding:6,
       paddingLeft:14,
       margin:5,
       textAlign:'left',
   },
   footer:{
-      height:50,
+      height:HEIGHT*0.1,
       flexDirection:'row',
       alignItems:'center',
       backgroundColor:'white',
       borderTopWidth:1,
       borderTopColor:'lightgray'
     },
+    footerinfo:
+    {
+      width:WIDTH*0.5,
+      flexDirection:'row',
+      alignItems:'center',
+      backgroundColor:'white',
+
+    },
     version:{
         flex:1,
+        fontSize:WIDTH*0.03,
         textAlign:'right',
         marginRight:20,
         color:'gray',
@@ -181,14 +192,13 @@ const styles = StyleSheet.create({
     description:{
         flex:1,
         marginLeft:20,
-        fontSize:16,
+        fontSize:WIDTH*0.04,
     },
     imageView:{
-      marginBottom:0
-       
+      height:HEIGHT*0.06,
+      width: WIDTH*0.06,       
         },
         image:{
-          height:50,
-          width: 50,
+        
         }
 });

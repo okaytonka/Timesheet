@@ -1,9 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity,Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity,Image,
+  SafeAreaView,Dimensions,TouchableWithoutFeedback,Keyboard} from 'react-native';
 import MenuButton from '../MenuButton';
 import firebase from '../../../Firebase'
 import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
+const WIDTH= Dimensions.get('window').width;
+const HEIGHT= Dimensions.get('window').height;
 export default class SettingsScreen extends React.Component {
   state={
     myUid:"",
@@ -56,7 +59,10 @@ updateInfo(){
 
     render()
     {
-        return(               
+        return(      
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+         
+          <SafeAreaView style={styles.safeArea} >
 
           <View style={styles.container}>
              <MenuButton navigation={this.props.navigation}/>
@@ -93,11 +99,19 @@ updateInfo(){
           <FlashMessage position="bottom" />
   
         </View>
+
+        </SafeAreaView>
+        </TouchableWithoutFeedback>
+
         )
     }
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#FF5236'
+  },
   container: {
     flex: 1,
     backgroundColor: '#f3ece7',

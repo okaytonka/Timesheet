@@ -1,11 +1,13 @@
 import React from 'react';
-import { ActivityIndicator, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, RefreshControl, StyleSheet, Text, View,SafeAreaView,Dimensions } from 'react-native';
 import MenuButton from '../MenuButton';
 import Timeline from 'react-native-timeline-flatlist'
 import firebase from '../../../Firebase'
 import dayjs from 'dayjs';
 import 'dayjs/locale/tr'
 import tr from 'dayjs/locale/tr';
+const WIDTH= Dimensions.get('window').width;
+const HEIGHT= Dimensions.get('window').height;
 let icons=[
   require("../../images/icons/alien.png"),
   require("../../images/icons/astronaut.png"),
@@ -35,7 +37,6 @@ state={
 
 
   async componentDidMount (){
-    console.log("RASTELE İCO",)
     await this.setState({
       myUid:firebase.auth().currentUser.uid
     })
@@ -64,8 +65,6 @@ state={
           }
           )
 
-          console.log("GELEN a", a)
-
 
          }
       
@@ -91,8 +90,6 @@ state={
       //refresh to initial data
       var data = this.state.data.concat(
         [
-          {time: '00:00', title: 'Liste Güncelleniyor', description: 'Liste Güncelleniyor'},
-          {time: '00:00', title: 'Liste Güncelleniyor', description: 'Liste Güncelleniyor'},
           {time: '00:00', title: 'Liste Güncelleniyor', description: 'Liste Güncelleniyor'},
 
         ]
@@ -133,6 +130,8 @@ state={
     render()
     {
         return(
+          <SafeAreaView style={styles.safeArea} >
+
             <View style={styles.container}>
                 <MenuButton navigation={this.props.navigation}/>
                 <View style={styles.timelinecontainer}>
@@ -165,11 +164,17 @@ state={
                 </View>
         
             </View>
+            </SafeAreaView>
+
         )
     }
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#FF5236'
+  },
   container: {
     flex: 1,
     backgroundColor: '#f3ece7',
@@ -182,11 +187,11 @@ const styles = StyleSheet.create({
 
   },
   text:{
-    fontSize:30,
+    fontSize:50,
   },
   list: {
     flex: 1,
     marginTop:80,
-    width:250
+    width:WIDTH*0.45
   },
 });

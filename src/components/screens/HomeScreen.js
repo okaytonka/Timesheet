@@ -1,5 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View,Dimensions, SafeAreaView, StatusBar,Modal, Button,Picker,TouchableHighlight,TextInput,Vibration } from 'react-native';
+import { StyleSheet, Text, View,Dimensions, SafeAreaView, StatusBar,Modal, 
+  Button,Picker,TouchableHighlight,TextInput,Vibration,TouchableWithoutFeedback  
+,Keyboard
+} from 'react-native';
 
 import MenuButton from '../MenuButton'
 import { Calendar } from 'react-native-big-calendar'
@@ -240,12 +243,14 @@ this.endItemCreater();
       const { modalVisible } = this.state;
 
               return(
-                
+
+                <SafeAreaView style={styles.safeArea} >
+
             <View style={styles.container}>
       <StatusBar barStyle="light-content" />
     
                 <MenuButton navigation={this.props.navigation}/>
-                <SafeAreaView style={styles.safeArea} >
+
                 <Calendar
 
         style={styles.calendar}
@@ -270,6 +275,8 @@ this.endItemCreater();
           transparent={true}
           visible={modalVisible}
         > 
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+
           <View style={styles.centeredView}>
          
             <View style={styles.modalView}>
@@ -378,11 +385,16 @@ onChangeItem={item => this.setState({
 
             </View>
           </View> 
+          </TouchableWithoutFeedback>
+
         </Modal>
+
         </View>
-</SafeAreaView>
 
             </View>
+
+            </SafeAreaView>
+
         )
     }
 }
@@ -452,7 +464,7 @@ const styles = StyleSheet.create({
   },
   
   modalText: {
-    fontSize:16,
+    fontSize:0.05*WIDTH,
     marginBottom: 15,
     textAlign: "center"
   },
