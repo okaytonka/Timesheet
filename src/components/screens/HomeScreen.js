@@ -280,14 +280,17 @@ this.endItemCreater();
           <View style={styles.centeredView}>
          
             <View style={styles.modalView}>
+            <View style={styles.modalStartDateTopRowContainer}>
+
               <View style={styles.modalStartDate1Container} >
-<Text style={styles.modalText}>Başlangıç: {this.state.modalStartDate}</Text>
+<Text style={styles.modalText}>Başlangıç: {"\n"}{this.state.modalStartDate}</Text>
+<View style={styles.modalStartDateRowContainer} >
 
 <DropDownPicker
         placeholder={"Saat"}
 style={styles.modalDropTop}
 items={endItems}
-containerStyle={{height: "60%",width:"60%"}}
+containerStyle={{height: "100%",width:"100%"}}
 itemStyle={{
 justifyContent: 'flex-start'
 }}
@@ -304,7 +307,7 @@ items={[
 {label: '30', value: 30},
 ]}
 defaultValue={this.state.modalSelectedStartMinute}
-containerStyle={{height: "60%",width:"60%"}}
+containerStyle={{height: "100%",width:"100%"}}
 itemStyle={{
 justifyContent: 'flex-start'
 }}
@@ -313,15 +316,18 @@ onChangeItem={item => this.setState({
 modalSelectedStartMinute: item.value
 })}
 />
+</View>
               </View>
               <View style={styles.modalStartDateContainer} >
 
-        <Text style={styles.modalText}>Bitiş: {this.state.modalEndDate}</Text>
+        <Text style={styles.modalText}>Bitiş: {"\n"}{this.state.modalEndDate}</Text>
+        <View style={styles.modalStartDateRowContainer} >
+
         <DropDownPicker
         placeholder={"Saat"}
 style={styles.modalDrop2}
 items={endItems}
-containerStyle={{height: "60%",width:"60%"}}
+containerStyle={{height: "100%",width:"100%"}}
 itemStyle={{
 justifyContent: 'flex-start'
 }}
@@ -338,7 +344,7 @@ items={[
 {label: '30', value: 30},
 ]}
 defaultValue={this.state.modalSelectedEndMinute}
-containerStyle={{height: "60%",width:"60%"}}
+containerStyle={{height: "100%",width:"100%"}}
 itemStyle={{
 justifyContent: 'flex-start'
 }}
@@ -347,8 +353,11 @@ onChangeItem={item => this.setState({
   modalSelectedEndMinute: item.value
 })}
 />
-              
+            </View>  
             </View>
+            </View>
+            <View style={styles.modalInputGroup}>
+  
             <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
@@ -365,7 +374,7 @@ onChangeItem={item => this.setState({
             value={this.state.description}
             onChangeText={text => this.setState({description:text})}/>
         </View>
-
+        </View>
   <View style={styles.modalButtonGroup}>
    <Text> {this.state.error}</Text> 
   <TouchableHighlight  onPress={() => {this.setModalVisible("iptal")}}
@@ -408,12 +417,12 @@ const styles = StyleSheet.create({
   },
   inputView:{
     zIndex:-1,
-    width:"80%",
-    height:"17%",
+    width:"100%",
+    height:"100%",
 
     backgroundColor:"#f5f5f5",
     borderRadius:25,
-    marginBottom:0,
+    marginBottom:"2%",
     justifyContent:"center",
     padding:5
   },
@@ -442,6 +451,8 @@ const styles = StyleSheet.create({
   modalView: {
     width:WIDTH*0.85,
     height:HEIGHT*0.5,
+    flexDirection: 'column', 
+
     margin: 0,
     backgroundColor: "white",
     borderRadius: 20,
@@ -464,23 +475,34 @@ const styles = StyleSheet.create({
   },
   
   modalText: {
-    fontSize:0.05*WIDTH,
+    fontSize:0.04*WIDTH,
     marginBottom: 15,
     textAlign: "center"
   },
-  modalStartDate1Container:{
-    width:WIDTH*0.3,
-    height:HEIGHT*0.1,
+  modalStartDateTopRowContainer:{
+
     flexDirection: 'row', 
-    justifyContent: 'center'
+    marginBottom:HEIGHT*0.05
+
+  },
+
+  modalStartDateRowContainer:{
+    width:"50%",
+    height:"50%",
+    flexDirection: 'row', 
+  },
+  modalStartDate1Container:{
+    width:WIDTH*0.4,
+    height:HEIGHT*0.1,
+    flexDirection: 'column', 
   },
   modalStartDateContainer:{
-    width:WIDTH*0.3,
+    width:WIDTH*0.4,
     height:HEIGHT*0.1,
-    flexDirection: 'row', 
-    justifyContent: 'center'
+    flexDirection: 'column', 
   },
   modalDropTop:{
+    zIndex:100,
     backgroundColor: '#fafafa',
 
   },
@@ -490,11 +512,22 @@ const styles = StyleSheet.create({
   modalDrop2:{
     backgroundColor: '#fafafa',
   },
+  modalInputGroup:{
+    zIndex:-1,
+    flexDirection: 'column', 
+    width:"100%",
+    height:"15%",
+    marginBottom:HEIGHT*0.05
+
+    },
+
   modalButtonGroup:{
     zIndex:-1,
     padding:0,
     flexDirection: 'row', 
-    justifyContent: 'center'
+    width:"100%",
+    height:"35%",
+    marginTop:"15%"
   },
   modalButton:{
     borderWidth:3,

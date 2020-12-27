@@ -55,7 +55,7 @@ LogOut=() =>{
 
     navLink(nav,text){
         return(
-            <TouchableOpacity style={{height:50}} onPress={() => this.props.navigation.navigate(nav)} >
+            <TouchableOpacity style={{height:"22%"}} onPress={() => this.props.navigation.navigate(nav)} >
                 <Text style={styles.link}>{text}</Text>
             </TouchableOpacity>
         )
@@ -129,7 +129,8 @@ const styles = StyleSheet.create({
     flex:3,
     flexDirection:'column',
     justifyContent:'center',
-
+    height:"45%",
+    width: "50%",
   },
   name:{
     fontSize:0.045*WIDTH,
@@ -141,11 +142,13 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft:20,
     paddingRight:20,
+    height:"45%",
+    width: "50%",
 
   },
   img:{
-    height:HEIGHT*0.08,
-    width: WIDTH*0.16,
+    height:"100%",
+    width: "100%",
     borderRadius: 50,
   },
   topLinks:{
@@ -195,8 +198,8 @@ const styles = StyleSheet.create({
         fontSize:WIDTH*0.04,
     },
     imageView:{
-      height:HEIGHT*0.06,
-      width: WIDTH*0.06,       
+      height:"100%",
+      width: "10%",       
         },
         image:{
         
