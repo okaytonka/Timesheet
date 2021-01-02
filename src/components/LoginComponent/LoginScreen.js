@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity,Image } from 'react
 import firebase from '../../../Firebase'
 import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
-
+import * as Notifications from 'expo-notifications';
+import * as Permissions from "expo-permissions";
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -16,9 +17,49 @@ export default class LoginScreen extends React.Component {
 
   }
 
+  loginForPushNotifications = async () =>{
+    const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = status;
+
+    if(status !=='granted')
+    {
+      const {status} = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus=status;
+    }
+
+    if(finalStatus !=='granted'){return;}
+   await Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+      }),
+    });
+    let token = await Notifications.getExpoPushTokenAsync();
+
+    let uid = firebase.auth().currentUser.uid;
+    
+
+    try{
+      firebase.firestore().
+      collection('UserInfo').
+      doc(uid).
+      update({
+        expoPushToken:token
+      })
+      .then(querySnapshot => {
+        this.componentDidMount();
+        });
+    }catch(error){
+      console.log("addFirebaseERROR",error);
+  
+    }
+
+  }
 
   componentDidMount=()=>
 {
+  this.loginForPushNotifications();
   let that = this ;
 
   try {
