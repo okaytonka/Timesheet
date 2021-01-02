@@ -58,6 +58,12 @@ export default class RegisterScreen extends React.Component {
   render(){
     return (
       <View style={styles.container}>
+        <View style={{marginLeft:-350,marginTop:-100,marginBottom:100}}>
+        <TouchableOpacity style={{ height: 35, width:35,paddingLeft:10, paddingTop:10 }} onPress={() => this.props.navigation.goBack()}>
+                <Image style={{width:35,height:35}} source={{uri: 'https://i.hizliresim.com/1CcP8X.png'}}/>
+              </TouchableOpacity> 
+        </View>
+  
         <View style={styles.imageView}>
                   <Image style={styles.image} source={require('../../images/register.png')}/>
         </View>
