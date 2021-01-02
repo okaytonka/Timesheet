@@ -41,7 +41,6 @@ export default class RegisterScreen extends React.Component {
 
       }
          ).catch(error=>{
-           console.log("HATA",error)
           showMessage({
             message: "Uyarı",
             description: "Girdiğiniz Bİlgiler Hatalı.",

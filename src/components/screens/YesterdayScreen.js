@@ -52,12 +52,9 @@ state={
     .then(snapshot => {
       snapshot.forEach(doc => {
         if (doc && doc.exists) {
-          console.log("GELEN ", new Date(doc.data().startDate.toDate()).toDateString())
-          console.log("BUGÜN ", new Date().toDateString())
 
           if(new Date(doc.data().startDate.toDate()).toDateString() === d.toDateString())
          {
-          console.log("GELEN saat", new Date(doc.data().startDate.toDate()).toLocaleTimeString())
           a.push
           (  {
             time:new Date(doc.data().startDate.toDate()).toLocaleTimeString(),
@@ -77,7 +74,6 @@ state={
     });
   
   } catch (error) {
-    console.log("ERROR",error)
   }
 
 

@@ -51,7 +51,6 @@ export default class LoginScreen extends React.Component {
         this.componentDidMount();
         });
     }catch(error){
-      console.log("addFirebaseERROR",error);
   
     }
 
@@ -59,8 +58,8 @@ export default class LoginScreen extends React.Component {
 
   componentDidMount=()=>
 {
-  this.loginForPushNotifications();
   let that = this ;
+  // that.loginForPushNotifications();
 
   try {
     firebase.auth().onAuthStateChanged(function(user) {
@@ -87,7 +86,6 @@ export default class LoginScreen extends React.Component {
           description: "Giriş Yapılıyor.",
           type: "success",
         }),
-        console.log('Home',data.user.uid)
         this.props.navigation.navigate('Home',data.user.uid)
         
       }
@@ -100,7 +98,6 @@ export default class LoginScreen extends React.Component {
          });
 
 } catch (error) {
-      //console.log(error.toString(error));
       
     }
 

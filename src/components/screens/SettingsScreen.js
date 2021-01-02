@@ -32,9 +32,7 @@ async componentDidMount(){
       });
   
   } catch (error) {
-    console.log("ERROR",error)
   }
-  console.log("DATALARIM",this.state.name,this.state.surname,this.state.email)
 
 }
 
@@ -51,8 +49,6 @@ updateInfo(){
       this.componentDidMount();
       });
   }catch(error){
-    console.log("addFirebaseERROR",error);
-
   }
 }
 

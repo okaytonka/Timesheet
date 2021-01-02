@@ -37,6 +37,7 @@ export default class HomeScreen extends React.Component {
 
 
  async componentDidMount (){
+
     await this.setState({
       myUid:firebase.auth().currentUser.uid
     })
@@ -49,7 +50,6 @@ export default class HomeScreen extends React.Component {
     .then(snapshot => {
       snapshot.forEach(doc => {
         if (doc && doc.exists) {
-         // console.log("DİDİDİD",doc.id)
           a.push
           (  {
             id:doc.id,
@@ -65,7 +65,6 @@ export default class HomeScreen extends React.Component {
     });
   
   } catch (error) {
-    console.log("ERROR",error)
   }
 
 
@@ -75,7 +74,6 @@ export default class HomeScreen extends React.Component {
 
   cellClick = async(e) => {
     Vibration.vibrate(10)
-    console.log("CELLCLİK",e)
     cellSelector=e;
     var year=new Date(e).getFullYear(); 
     var month=new Date(e).getMonth();
@@ -92,7 +90,6 @@ this.endItemCreater();
   }
 
   eventClick = async(e) => {
-    console.log("EVENTCLİCK",e)
     Vibration.vibrate(10)
 
     cellSelector=e;
@@ -162,7 +159,6 @@ this.endItemCreater();
         var month=new Date(cellSelector).getMonth();
         var day=new Date(cellSelector).getDate();
         try{
-          console.log("ADD",this.state.myUid)
           firebase.firestore().
           collection('Users').
           doc(this.state.myUid).
@@ -178,7 +174,6 @@ this.endItemCreater();
             this.componentDidMount();
             });
         }catch(error){
-          console.log("addFirebaseERROR",error);
     
         }
       }
@@ -203,7 +198,6 @@ this.endItemCreater();
           this.componentDidMount();
           });
       }catch(error){
-        console.log("addFirebaseERROR",error);
   
       }
 
