@@ -26,17 +26,14 @@ LogOut=() =>{
   let that = this ;
 
   firebase.auth().signOut().then(function() {
-    console.log("ÇIKIŞ YAPTI")
     that.props.navigation.navigate("Login")
       }).catch(function(error) {
     // An error happened.
-    console.log("HATA",error)
 
   });
 }
    componentDidMount (){
     try {
-      console.log("GİRDİDİD")
         firebase.firestore().collection("UserInfo").doc(firebase.auth().currentUser.uid)
         .get()
       .then(querySnapshot => {
@@ -47,7 +44,6 @@ LogOut=() =>{
       });
       
     } catch (error) {
-      console.log(error)
       
     }
 
@@ -61,7 +57,6 @@ LogOut=() =>{
         )
     }
     render(){
-      console.log("MENUDRAW",this.props.navigation.navigate.params)
         return(
             <View style={styles.container}>
                 <ScrollView style={styles.scroller}>
@@ -78,7 +73,7 @@ LogOut=() =>{
                     <View style={styles.buttonLinks}>
 
                         {this.navLink('Home','Anasayfa')}
-                        {this.navLink('Today','Günlük İşler')}
+                        {this.navLink('DailyTasks','Günlük İşler')}
                         {this.navLink('Settings','Ayarlar')}
                         
 

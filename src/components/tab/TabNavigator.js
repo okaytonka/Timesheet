@@ -9,7 +9,7 @@ import { Fontisto } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+export default function TabNavigator(props) {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -33,8 +33,8 @@ export default function App() {
       }}
 
       >
-        <Tab.Screen name="Bugün" component={TodayScreen} />
-        <Tab.Screen name="Dün" component={YesterdayScreen} />
+        <Tab.Screen name="Bugün"  children={()=><TodayScreen navigation={props.navigation}/>}  />
+        <Tab.Screen name="Dün"  children={()=><YesterdayScreen navigation={props.navigation}/>}  />
       </Tab.Navigator>
     </NavigationContainer>
   );

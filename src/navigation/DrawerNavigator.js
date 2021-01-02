@@ -8,7 +8,7 @@ import TodayScreen from '../components/screens/TodayScreen'
 import SettingsScreen from '../components/screens/SettingsScreen'
 import MenuDrawer from '../components/MenuDrawer';
 import LoginScreen from '../components/LoginComponent/LoginScreen';
-import Tab from '../components/tab/Tab'
+import TabNavigator from '../components/tab/TabNavigator'
 
 const WIDTH= Dimensions.get('window').width;
 const DrawerConfig={
@@ -23,8 +23,8 @@ const DrawerNavigator = createDrawerNavigator(
         Home:{
         screen:HomeScreen
         },
-        Today:{
-            screen:Tab
+        DailyTasks:{
+            screen:TabNavigator
         },
         Settings:{
             screen:SettingsScreen
