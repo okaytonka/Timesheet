@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
   inputView:{
     zIndex:-1,
     width:"100%",
-    height:"100%",
+    height:"50%",
 
     backgroundColor:"#f5f5f5",
     borderRadius:25,
@@ -516,9 +516,8 @@ const styles = StyleSheet.create({
     zIndex:-1,
     flexDirection: 'column', 
     width:"100%",
-    height:"15%",
+    height:"33%",
     marginBottom:HEIGHT*0.05
-
     },
 
   modalButtonGroup:{
